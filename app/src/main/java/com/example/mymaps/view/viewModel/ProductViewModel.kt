@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mymaps.common.utils.Resource
-import com.example.mymaps.data.repository.IProductsRepository
+import com.example.mymaps.data.repository.ProductsRepository
 import com.example.mymaps.view.viewModel.state.ProductListingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductViewModel @Inject constructor(private val repository: IProductsRepository) :
+class ProductViewModel @Inject constructor(private val repository: ProductsRepository) :
     ViewModel() {
 
     private val _productList = MutableStateFlow(ProductListingState())
@@ -26,7 +26,7 @@ class ProductViewModel @Inject constructor(private val repository: IProductsRepo
             val res = repository.fetchAllProducts()
             res.collect {
                 when (it) {
-                    is Resource.Success->{
+                    is Resource.Success -> {
                         _productList.value =
                             ProductListingState().copy(productList = it.data, isLoading = false)
                         Log.d("listProductsViewModel", "onCreate: ${it.data}")
